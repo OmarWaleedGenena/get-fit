@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_fit/constants/screenutil.dart';
 import 'package:get_fit/constants/space.dart';
+import 'package:get_fit/presentation/screens/result_screen.dart';
 
 import '../../constants/text_styles.dart';
 import '../widgets/main_button.dart';
@@ -14,6 +17,10 @@ class BMI extends StatefulWidget {
 }
 
 class _BMIState extends State<BMI> {
+  bool isMale = true;
+  late double heightVal;
+  late int age;
+  late int weight;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +130,15 @@ class _BMIState extends State<BMI> {
               ),
             ),
             const Spacer(),
-            MainButton(onPressed: (){},text: 'Calculate',),
+            MainButton(onPressed: (){
+              var result = weight / pow(heightVal / 100, 2);
+              print(result);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          Result(result: result, isMale: isMale, age: age)));
+            },text: 'Calculate',),
           ],
         ),
       ),
@@ -133,30 +148,66 @@ class _BMIState extends State<BMI> {
     return Material(
       borderRadius: BorderRadius.circular(10),
       elevation: 10,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        width: screenWidth*0.4,
-        height: height(110),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Icon(
-              type == 'male' ? Icons.male : Icons.female,
-              size: 35,
-            ),
-            Text(
-              type,
-              style: const TextStyle(fontSize: 15),
-            ),
-          ],
+      child: GestureDetector(
+        onTap: () => setState(() => isMale = (type == 'male') ? true : false),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          width: screenWidth*0.4,
+          height: height(110),
+          decoration: BoxDecoration(
+              color:(isMale && type == 'male') || (!isMale && type == 'female')
+                  ? Colors.blueGrey
+                  : Colors.white.withOpacity(0.9),
+            // color: Colors.white.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                type == 'male' ? Icons.male : Icons.female,
+                size: 35,
+              ),
+              Text(
+                type,
+                style: const TextStyle(fontSize: 15),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  // Expanded m1Exp(BuildContext context, String type) {
+  //   return Expanded(
+  //       child: GestureDetector(
+  //         onTap: () => setState(() => isMale = (type == 'male') ? true : false),
+  //         child: Container(
+  //           decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(10.0),
+  //               color: (isMale && type == 'male') || (!isMale && type == 'female')
+  //                   ? Colors.teal
+  //                   : Colors.blueGrey),
+  //           child: Column(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Icon(
+  //                 type == 'male' ? Icons.male : Icons.female,
+  //                 size: 90,
+  //               ),
+  //               const SizedBox(
+  //                 height: 15,
+  //               ),
+  //               Text(
+  //                 type == 'male' ? "Male" : "Female",
+  //                 style: Theme.of(context).textTheme.headline2,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ));
+  // }
 
   Material textBuilder(String suffix) {
     return Material(

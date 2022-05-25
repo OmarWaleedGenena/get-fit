@@ -48,6 +48,10 @@ dependencies:
   fluttertoast: ^8.0.8
   dio: ^4.0.0
   get_storage: ^2.0.3
+  url_launcher:
+  cloud_firestore:
+  firebase_storage:
+  file_picker:
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +77,16 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/excercises/abs/
+    - assets/excercises/Back/
+    - assets/excercises/Bicebs/
+    - assets/excercises/Calf/
+    - assets/excercises/Chest pics/
+    - assets/excercises/forearms/
+    - assets/excercises/legs/
+    - assets/excercises/shoulders/
+    - assets/excercises/tri/
+    - assets/recipes_image/
     - assets/images/
 #    - assets/icons/
     - assets/lotties/

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_fit/constants/screenutil.dart';
@@ -7,7 +8,20 @@ import '../widgets/excersices_card.dart';
 import '../widgets/search_bar.dart';
 
 class BackScreen extends StatelessWidget {
-  const BackScreen({Key? key}) : super(key: key);
+  final CollectionReference _back = FirebaseFirestore.instance.collection('back');
+   BackScreen({Key? key}) : super(key: key);
+  List<String> back = [
+    'assets/excercises/Back/back extensiond.png',
+    'assets/excercises/Back/barbell shrugs.png',
+    'assets/excercises/Back/bent over row.png',
+    'assets/excercises/Back/chin-ups.png',
+    'assets/excercises/Back/deadlifts.png',
+    'assets/excercises/Back/lat pull-downs.png',
+    'assets/excercises/Back/one-arm dumbbell rows.png',
+    'assets/excercises/Back/reverse chin ups.png',
+    'assets/excercises/Back/seated rows.png',
+    'assets/excercises/Back/t-bar bent over row.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +62,30 @@ class BackScreen extends StatelessWidget {
               )),
         ),
         Expanded(
-          child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ExcricesCard(
-                  name: 'Lat Pull-Downs',
-                  ex: 'Back',
-                  img: 'assets/images/back1.png',
-                  colorDivider: Colors.grey,
+          child: StreamBuilder(
+            stream: _back.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                return ListView.builder(
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot =
+                    streamSnapshot.data!.docs[index];
+                    return ExcricesCard(
+                      name: '${documentSnapshot['name']}',
+                      ex: 'back',
+                      img: back[index],
+                      colorDivider: Colors.black,
+                    );
+                  },
                 );
-              }),
-        )
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ),
       ]),
     );
   }

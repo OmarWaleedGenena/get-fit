@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_fit/constants/screenutil.dart';
@@ -8,7 +9,20 @@ import '../widgets/excersices_card.dart';
 import '../widgets/search_bar.dart';
 
 class BicepsScreen extends StatelessWidget {
-  const BicepsScreen({Key? key}) : super(key: key);
+  final CollectionReference _bicebs = FirebaseFirestore.instance.collection('bicebs');
+   BicepsScreen({Key? key}) : super(key: key);
+  List<String> bicebs = [
+    'assets/excercises/Bicebs/Barbell Curls.png',
+    'assets/excercises/Bicebs/Cable Biceps Curl.png',
+    'assets/excercises/Bicebs/concentration curls.png',
+    'assets/excercises/Bicebs/curls.png',
+    'assets/excercises/Bicebs/Dumbbell Biceps Curl.png',
+    'assets/excercises/Bicebs/Hammer Curls.png',
+    'assets/excercises/Bicebs/Low Pulley Curls.png',
+    'assets/excercises/Bicebs/Preacher Curls.png',
+    'assets/excercises/Bicebs/Reverse Curls.png',
+    'assets/excercises/Bicebs/seated curl.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -49,17 +63,30 @@ class BicepsScreen extends StatelessWidget {
               )),
         ),
         Expanded(
-          child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ExcricesCard(
-                  name: 'Cable Biceps Curl',
-                  ex: 'Biceps',
-                  img: 'assets/images/biceps1.png',
-                  colorDivider: const Color(0xFF536D90),
+          child: StreamBuilder(
+            stream: _bicebs.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                return ListView.builder(
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot =
+                    streamSnapshot.data!.docs[index];
+                    return ExcricesCard(
+                      name: '${documentSnapshot['name']}',
+                      ex: 'bicebs',
+                      img: bicebs[index],
+                      colorDivider: Colors.black,
+                    );
+                  },
                 );
-              }),
-        )
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ),
       ]),
     );
   }

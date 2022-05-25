@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_fit/constants/screenutil.dart';
@@ -8,7 +9,19 @@ import '../widgets/excersices_card.dart';
 import '../widgets/search_bar.dart';
 
 class ShouldersScreen extends StatelessWidget {
-  const ShouldersScreen({Key? key}) : super(key: key);
+  final CollectionReference _shoulders = FirebaseFirestore.instance.collection('shoulders');
+   ShouldersScreen({Key? key}) : super(key: key);
+  List<String> shoulders = [
+    'assets/excercises/shoulders/Barbell Front Raises.png',
+    'assets/excercises/shoulders/Dulubbell Lateral Raise With Arts Bent.png',
+    'assets/excercises/shoulders/dumbbell rear dwltoid reaises.png',
+    'assets/excercises/shoulders/Front Raises.png',
+    'assets/excercises/shoulders/Low Pulley Bent-Over.png',
+    'assets/excercises/shoulders/Low Pulley Frohit Ralses.png',
+    'assets/excercises/shoulders/Pec Deck Rear-Deit.png',
+    'assets/excercises/shoulders/Upright Row.png',
+    'assets/excercises/shoulders/upright rows.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -49,17 +62,30 @@ class ShouldersScreen extends StatelessWidget {
               )),
         ),
         Expanded(
-          child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ExcricesCard(
-                  name: 'Back Presses',
-                  ex: 'Shoulders',
-                  img: 'assets/images/shoulders1.png',
-                  colorDivider: const Color(0xFFF097D8),
+          child: StreamBuilder(
+            stream: _shoulders.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                return ListView.builder(
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot =
+                    streamSnapshot.data!.docs[index];
+                    return ExcricesCard(
+                      name: '${documentSnapshot['name']}',
+                      ex: 'shoulders',
+                      img: shoulders[index],
+                      colorDivider: Colors.black,
+                    );
+                  },
                 );
-              }),
-        )
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ),
       ]),
     );
   }

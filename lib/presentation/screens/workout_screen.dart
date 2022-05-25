@@ -45,26 +45,6 @@ class WorkoutScreen extends StatelessWidget {
         ),
         preferredSize: const Size.fromHeight(150),
       ),
-      // PreferredSize(
-      //   child: AppBar(
-      //     title: Text('Workout',style: titlePage,),
-      //     leading: IconButton(icon: const Icon(Icons.arrow_back_ios_outlined),onPressed: (){Get.back();}),
-      //     backgroundColor: Colors.transparent,
-      //     elevation: 0,
-      //     centerTitle: true,
-      //     flexibleSpace: ClipRRect(
-      //       borderRadius: const BorderRadius.only(
-      //           bottomLeft: Radius.circular(70),
-      //           bottomRight: Radius.circular(70)),
-      //       child: Container(
-      //         decoration: const BoxDecoration(color: Colors.black,
-      //           image: DecorationImage(image: AssetImage('assets/images/imageBar.jpg'),opacity: 0.75,fit: BoxFit.fill)
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      //   preferredSize: Size.fromHeight(height(200)),
-      // ),
       body: GridView.count(
         primary: false,
         padding: const EdgeInsets.symmetric(
@@ -78,55 +58,55 @@ class WorkoutScreen extends StatelessWidget {
             image: 'assets/images/chest.png',
             title: 'Chest',
             color: Colors.red,
-            onTap: () {Get.to(const ChestScreen());},
+            onTap: () {Get.to(ChestScreen());},
           ),
           CardHome(
             image: 'assets/images/abs.png',
             title: 'Abs',
             color: Colors.red,
-            onTap: () {Get.to(const AbsScreen());},
+            onTap: () {Get.to(AbsScreen());},
           ),
           CardHome(
             image: 'assets/images/biceps.png',
             title: 'Biceps',
             color: Colors.red,
-            onTap: () {Get.to(const BicepsScreen());},
+            onTap: () {Get.to(BicepsScreen());},
           ),
           CardHome(
             image: 'assets/images/triceps.png',
             title: 'Triceps',
             color: Colors.red,
-            onTap: () {Get.to(const TricepsScreen());},
+            onTap: () {Get.to(TricepsScreen());},
           ),
           CardHome(
             image: 'assets/images/shoulders.png',
             title: 'Shoulders',
             color: Colors.red,
-            onTap: () {Get.to(const ShouldersScreen());},
+            onTap: () {Get.to(ShouldersScreen());},
           ),
           CardHome(
             image: 'assets/images/forearms.png',
             title: 'Forearms',
             color: Colors.red,
-            onTap: () {Get.to(const ForearmsScreen());},
+            onTap: () {Get.to(ForearmsScreen());},
           ),
           CardHome(
             image: 'assets/images/back.png',
             title: 'Back',
             color: Colors.red,
-            onTap: () {Get.to(const BackScreen());},
+            onTap: () {Get.to(BackScreen());},
           ),
           CardHome(
             image: 'assets/images/calf.png',
             title: 'Calf',
             color: Colors.red,
-            onTap: () {Get.to(const CalfScreen());},
+            onTap: () {Get.to(CalfScreen());},
           ),
           CardHome(
             image: 'assets/images/legs.png',
             title: 'Legs',
             color: Colors.red,
-            onTap: () {Get.to(const LegsScreen());},
+            onTap: () {Get.to(LegsScreen());},
           ),
         ],
       ),

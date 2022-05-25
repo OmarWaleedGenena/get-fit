@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_fit/constants/screenutil.dart';
@@ -8,7 +9,20 @@ import '../widgets/excersices_card.dart';
 import '../widgets/search_bar.dart';
 
 class TricepsScreen extends StatelessWidget {
-  const TricepsScreen({Key? key}) : super(key: key);
+  final CollectionReference _tri = FirebaseFirestore.instance.collection('tri');
+   TricepsScreen({Key? key}) : super(key: key);
+  List<String> tri = [
+    'assets/excercises/tri/bar tri extrnsion.png',
+    'assets/excercises/tri/close grib bench press.png',
+    'assets/excercises/tri/dumbell triceps.png',
+    'assets/excercises/tri/one arm dumbell rticeps extensions.png',
+    'assets/excercises/tri/One Arm Reverse pulldown.png',
+    'assets/excercises/tri/push downs.png',
+    'assets/excercises/tri/triceps dips.png',
+    'assets/excercises/tri/triceps extesions.png',
+    'assets/excercises/tri/triceps kickbacks.png',
+    'assets/excercises/tri/triceps pushdown.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -49,17 +63,30 @@ class TricepsScreen extends StatelessWidget {
               )),
         ),
         Expanded(
-          child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ExcricesCard(
-                  name: 'Push-Downs',
-                  ex: 'Triceps',
-                  img: 'assets/images/triceps1.png',
-                  colorDivider: const Color(0xFFF097D8),
+          child: StreamBuilder(
+            stream: _tri.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                return ListView.builder(
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final DocumentSnapshot documentSnapshot =
+                    streamSnapshot.data!.docs[index];
+                    return ExcricesCard(
+                      name: '${documentSnapshot['name']}',
+                      ex: 'tri',
+                      img: tri[index],
+                      colorDivider: Colors.black,
+                    );
+                  },
                 );
-              }),
-        )
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ),
       ]),
     );
   }

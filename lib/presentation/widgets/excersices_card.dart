@@ -10,13 +10,14 @@ class ExcricesCard extends StatelessWidget {
     required this.name,
     required this.img,
     required this.ex,
-    required this.colorDivider
+    required this.colorDivider,
+    // required this.url
   });
-  String name;
-  String img;
-  String ex;
-  Color colorDivider;
-
+  final String name;
+  final String img;
+  final String ex;
+  final Color colorDivider;
+  // final String url;
   @override
   Widget build(BuildContext context) {
     return Container(

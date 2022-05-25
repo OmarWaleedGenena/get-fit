@@ -9,7 +9,6 @@ import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   // late Widget home;
   // FirebaseAuth.instance.userChanges().listen((user) {
